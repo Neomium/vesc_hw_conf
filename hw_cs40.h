@@ -7,7 +7,8 @@
 // Select HW Revision
 //#define HW_REV_A
 //#define HW_REV_B
-#define HW_REV_C
+//#define HW_REV_C
+#define HW_REV_D
 
 
 
@@ -20,21 +21,29 @@
 #define HW_HAS_3_SHUNTS
 
 // Macros
+// CÆSIUM causing problems depending on OS
+// https://github.com/vedderb/vesc_tool/blob/master/commands.cpp#L114C13-L114C47
 
 #if defined(HW_REV_A) // old layout with signal inverter
-    #define HW_NAME					"CÆSIUM_Cs40A"
+    #define HW_NAME					"CAESIUM_Cs40A"
     #define ENABLE_GATE()			palClearPad(GPIOB, 5)
     #define DISABLE_GATE()			palSetPad(GPIOB, 5)
     #define VIN_R1					150000.0
     #define VIN_R2					2370.0
 #elif defined(HW_REV_B)// Only for Rev B (inverted gate disable)
-    #define HW_NAME					"CÆSIUM_Cs40B"
+    #define HW_NAME					"CAESIUM_Cs40B"
     #define ENABLE_GATE()			palSetPad(GPIOB, 5)
     #define DISABLE_GATE()			palClearPad(GPIOB, 5)
     #define VIN_R1					150000.0
     #define VIN_R2					2370.0
-#elif defined(HW_REV_C)// Only for Rev C and newer (1ch gate driver)
-    #define HW_NAME					"CÆSIUM_Cs40C"
+#elif defined(HW_REV_C)// Only for Rev C
+    #define HW_NAME					"CAESIUM_Cs40C"
+    #define ENABLE_GATE()			palClearPad(GPIOB, 5)
+    #define DISABLE_GATE()			palSetPad(GPIOB, 5)
+    #define VIN_R1					255000.0
+    #define VIN_R2					4020.0
+#elif defined(HW_REV_D)// Only for Rev D and newer (1ch gate driver)
+    #define HW_NAME					"CAESIUM_Cs40D"
     #define ENABLE_GATE()			palClearPad(GPIOB, 5)
     #define DISABLE_GATE()			palSetPad(GPIOB, 5)
     #define VIN_R1					255000.0
@@ -240,8 +249,8 @@
 #endif
 
 // Setting limits
-#define HW_LIM_CURRENT			-400.0, 250.0
-#define HW_LIM_CURRENT_IN		-300.0, 250.0
+#define HW_LIM_CURRENT			-400.0, 400.0
+#define HW_LIM_CURRENT_IN		-300.0, 400.0
 #define HW_LIM_CURRENT_ABS		0.0, 400.0
 #define HW_LIM_VIN				24.0, 200.0
 #define HW_LIM_ERPM				-200e3, 200e3
